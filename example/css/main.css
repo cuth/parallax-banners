@@ -1,0 +1,23 @@
+body {
+    margin: 0;
+}
+
+.content {
+    padding: 3% 7%;
+}
+
+.banner {
+    position: relative;
+    height: 250px;
+    overflow: hidden;
+    background: #000;
+}
+    .banner img {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 800px;
+        height: 400px;
+        margin: 0 0 0 -400px;
+    }

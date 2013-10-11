@@ -1,0 +1,1 @@
+var banners = new ParallaxBanners('.banner','img');
