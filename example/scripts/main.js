@@ -1,1 +1,1 @@
-var banners = new ParallaxBanners('.banner','img');
+var banners = new ParallaxBanners('.banner','img', { allowReverse: true });
