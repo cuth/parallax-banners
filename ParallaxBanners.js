@@ -45,6 +45,7 @@
                     stick.call(this, item, scrollTop);
                     return;
                 }
+                item.$layer.removeAttr('style');
                 return;
             }
             slideWith.call(this, item, scrollTop);
@@ -62,6 +63,10 @@
             }
             winHeight = $win.height();
         },
+        jump = function (delta) {
+            $win.scrollTop($win.scrollTop() - delta);
+            calcAllPos.call(this);
+        },
         bindEvents = function () {
             var self = this;
             $win.on('scroll', function () {
@@ -70,6 +75,10 @@
             $win.on('resize', function () {
                 measure.call(self);
                 calcAllPos.call(self);
+            });
+            $win.on('mousewheel', function (e) {
+                e.preventDefault();
+                jump.call(self, e.originalEvent.wheelDeltaY || e.originalEvent.wheelDelta);
             });
         },
         init = function (frames, layer, options) {
