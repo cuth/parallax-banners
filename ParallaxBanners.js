@@ -3,26 +3,34 @@
     var defaults = {
             allowReverse: false,
             allowStick: false,
-            usePositionTop: false
+            usePositionTop: false,
+            offMediaQuery: ''
         },
         $win = $(window),
         winHeight = $win.height(),
-        updateLayer = function (item, top) {
+        updateLayerStyle = function (item, top) {
             if (this.opts.usePositionTop) {
                 item.$layer.css('top', top + 'px');
                 return;
             }
             item.$layer.css('transform', 'translate3d(0, ' + top + 'px, 0)');
         },
+        removeLayerStyle = function (item) {
+            if (this.opts.usePositionTop) {
+                item.$layer.css('top', '');
+                return;
+            }
+            item.$layer.css('transform', '');
+        },
         stick = function (item, scrollTop) {
-            updateLayer.call(this, item, scrollTop - item.frameTop);
+            updateLayerStyle.call(this, item, scrollTop - item.frameTop);
         },
         reverse = function (item, scrollTop) {
             var animateStart = item.frameTop - winHeight,
                 percentageThrough = (scrollTop - animateStart) / (winHeight + item.frameHeight),
                 layerTravel = item.layerHeight + item.frameHeight,
                 layerTranslate = percentageThrough * layerTravel - item.layerHeight;
-            updateLayer.call(this, item, layerTranslate);
+            updateLayerStyle.call(this, item, layerTranslate);
         },
         slideWith = function (item, scrollTop) {
             var animateStart = item.frameTop - winHeight,
@@ -31,7 +39,7 @@
                 bleed = item.frameHeight * speedDifference,
                 realLayerTravel = item.layerHeight + item.frameHeight - bleed * 2,
                 layerTranslate = percentageThrough * realLayerTravel - item.layerHeight + bleed;
-            updateLayer.call(this, item, layerTranslate);
+            updateLayerStyle.call(this, item, layerTranslate);
         },
         calcPos = function (item) {
             var scrollTop = $win.scrollTop();
@@ -45,17 +53,19 @@
                     stick.call(this, item, scrollTop);
                     return;
                 }
-                item.$layer.removeAttr('style');
+                removeLayerStyle.call(this, item);
                 return;
             }
             slideWith.call(this, item, scrollTop);
         },
         calcAllPos = function () {
+            if (this.off) return;
             for (var x = 0, xlen = this.set.length; x < xlen; x += 1) {
                 calcPos.call(this, this.set[x]);
             }
         },
         measure = function () {
+            if (this.off) return;
             for (var x = 0, xlen = this.set.length; x < xlen; x += 1) {
                 this.set[x].frameTop = this.set[x].$frame.offset().top;
                 this.set[x].frameHeight = this.set[x].$frame.outerHeight();
@@ -66,6 +76,14 @@
         jump = function (delta) {
             $win.scrollTop($win.scrollTop() - delta);
             calcAllPos.call(this);
+        },
+        turnSwitch = function (off) {
+            if (off) {
+                for (var x = 0, xlen = this.set.length; x < xlen; x += 1) {
+                    removeLayerStyle.call(this, this.set[x]);
+                }
+            }
+            this.off = off;
         },
         bindEvents = function () {
             var self = this;
@@ -80,6 +98,11 @@
                 e.preventDefault();
                 jump.call(self, e.originalEvent.wheelDeltaY || e.originalEvent.wheelDelta);
             });
+            if (matchMedia && this.opts.offMediaQuery) {
+                matchMedia(this.opts.offMediaQuery).addListener(function (mql) {
+                    turnSwitch.call(self, mql.matches);
+                });
+            }
         },
         init = function (frames, layer, options) {
             var self = this,
@@ -95,6 +118,7 @@
                     $layer: $layer.eq(0)
                 });
             });
+            this.off = false;
             measure.call(this);
             calcAllPos.call(this);
             bindEvents.call(this);
@@ -102,4 +126,5 @@
     namespace.ParallaxBanners = function (frames, layer, options) {
         this.result = init.call(this, frames, layer, options);
     };
+    namespace.ParallaxBanners.turnSwitch = turnSwitch;
 }(this, jQuery));
