@@ -5,7 +5,8 @@
             allowStick: false,
             usePositionTop: false,
             offMediaQuery: '',
-            activeClassName: '_parallaxed'
+            activeClassName: '_parallaxed',
+            onWindowLoad: false
         },
         $win = $(window),
         winHeight = $win.height(),
@@ -102,6 +103,12 @@
                 e.preventDefault();
                 jump.call(self, e.originalEvent.wheelDeltaY || e.originalEvent.wheelDelta);
             });
+            if (this.opts.onWindowLoad) {
+                $(window).on('load', function () {
+                    measure.call(self);
+                    calcAllPos.call(self);
+                });
+            }
             if (matchMedia && this.opts.offMediaQuery) {
                 matchMedia(this.opts.offMediaQuery).addListener(function (mql) {
                     turnSwitch.call(self, mql.matches);
@@ -123,12 +130,16 @@
                 });
             });
             this.off = false;
-            measure.call(this);
-            calcAllPos.call(this);
+            if (!this.opts.onWindowLoad) {
+                measure.call(this);
+                calcAllPos.call(this);
+            }
             bindEvents.call(this);
         };
     namespace.ParallaxBanners = function (frames, layer, options) {
         this.result = init.call(this, frames, layer, options);
     };
-    namespace.ParallaxBanners.turnSwitch = turnSwitch;
+    namespace.ParallaxBanners.prototype.measure = measure;
+    namespace.ParallaxBanners.prototype.calcAllPos = calcAllPos;
+    namespace.ParallaxBanners.prototype.turnSwitch = turnSwitch;
 }(this, jQuery));
