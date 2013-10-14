@@ -96,6 +96,7 @@
                 });
             });
             measure.call(this);
+            calcAllPos.call(this);
             bindEvents.call(this);
         };
     namespace.ParallaxBanners = function (frames, layer, options) {
