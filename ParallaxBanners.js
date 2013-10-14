@@ -4,7 +4,8 @@
             allowReverse: false,
             allowStick: false,
             usePositionTop: false,
-            offMediaQuery: ''
+            offMediaQuery: '',
+            activeClassName: '_parallaxed'
         },
         $win = $(window),
         winHeight = $win.height(),
@@ -78,9 +79,12 @@
             calcAllPos.call(this);
         },
         turnSwitch = function (off) {
-            if (off) {
-                for (var x = 0, xlen = this.set.length; x < xlen; x += 1) {
+            for (var x = 0, xlen = this.set.length; x < xlen; x += 1) {
+                if (off) {
                     removeLayerStyle.call(this, this.set[x]);
+                    this.set[x].$layer.removeClass(this.opts.activeClassName);
+                } else {
+                    this.set[x].$layer.addClass(this.opts.activeClassName);
                 }
             }
             this.off = off;
@@ -111,7 +115,7 @@
             this.set = [];
             $frames.each(function () {
                 var $this = $(this),
-                    $layer = $this.find(layer);
+                    $layer = $this.find(layer).addClass(self.opts.activeClassName);
                 if (!$this.length || !$layer.length) return;
                 self.set.push({
                     $frame: $this,
