@@ -1,4 +1,8 @@
-(function (namespace, $) {
+/* Parallax Banners
+ * version: 1.5
+ * https://github.com/cuth/parallax-banners
+ */
+(function (exports, $) {
     "use strict";
     var defaults = {
             allowReverse: false,
@@ -136,10 +140,10 @@
             }
             bindEvents.call(this);
         };
-    namespace.ParallaxBanners = function (frames, layer, options) {
+    exports.ParallaxBanners = function (frames, layer, options) {
         this.result = init.call(this, frames, layer, options);
     };
-    namespace.ParallaxBanners.prototype.measure = measure;
-    namespace.ParallaxBanners.prototype.calcAllPos = calcAllPos;
-    namespace.ParallaxBanners.prototype.turnSwitch = turnSwitch;
+    exports.ParallaxBanners.prototype.measure = measure;
+    exports.ParallaxBanners.prototype.calcAllPos = calcAllPos;
+    exports.ParallaxBanners.prototype.turnSwitch = turnSwitch;
 }(this, jQuery));
