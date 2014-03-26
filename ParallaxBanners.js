@@ -136,23 +136,23 @@
                 calcAllPos.call(self);
             });
         },
-        killRequesting = function () {
+        killRequesting = debounce(function () {
             this.requesting = false;
-        },
+        }, 100),
         bindEvents = function () {
             var self = this;
             $win.on('scroll', function () {
                 if (!self.requesting) {
                     startRequesting.call(self);
                 }
-                debounce(killRequesting, 150).call(self);
+                killRequesting.call(self);
             });
             $win.on('resize', function () {
                 measure.call(self);
                 if (!self.requesting) {
                     startRequesting.call(self);
                 }
-                debounce(killRequesting, 150).call(self);
+                killRequesting.call(self);
             });
             if (this.opts.onWindowLoad) {
                 $(window).on('load', function () {
