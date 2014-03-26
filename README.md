@@ -17,7 +17,6 @@ First parameter is a selector, jQuery object or DOM element.
 Second parameter is a selector starting from the first parameter element.
 
 Third parameter allows you to change the default options.
-
 ```javascript
 var defaults = {
     allowReverse: false,
@@ -29,8 +28,7 @@ var defaults = {
 }
 ```
 
-You can call methods on the instance.
-
+Call these public methods on the instance.
 ```javascript
 var instance = new ParallaxBanners('.Frames','.tallElements');
 
@@ -45,4 +43,14 @@ instance.turnSwitch(true);
 
 // or back on
 instance.turnSwitch(false);
+```
+
+Update and add this CSS for the elements that are parallaxed.
+```css
+._parallaxed {
+    position: fixed !important;
+    z-index: 100;
+    left: 0;
+    width: 100%;
+}
 ```

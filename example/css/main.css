@@ -10,7 +10,6 @@ body {
     position: relative;
     height: 450px;
     overflow: hidden;
-    background: #000;
 }
     .banner img {
         display: block;
