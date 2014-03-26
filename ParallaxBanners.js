@@ -178,7 +178,7 @@
                     top, $placeholder;
                 if (!$this.length || !$layer.length) return;
                 top = $this.offset().top - $win.scrollTop();
-                $placeholder = $('<div/>', {
+                $placeholder = $('<' + $this.prop('tagName') + '/>', {
                     'class': $this.attr('class')
                 });
                 $this.addClass(self.opts.activeClassName).css({ 'top': top }).after($placeholder);
