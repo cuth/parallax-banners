@@ -1,5 +1,5 @@
 /* Parallax Banners
- * version: 1.5
+ * version: 1.5.1
  * https://github.com/cuth/parallax-banners
  */
 (function (exports, $) {
