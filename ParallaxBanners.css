@@ -1,0 +1,6 @@
+._parallaxed {
+    position: fixed !important;
+    z-index: 100;
+    left: 0;
+    width: 100%;
+}
