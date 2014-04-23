@@ -1,9 +1,9 @@
 /* Parallax Banners
- * version: 1.5.1
+ * version: 1.5.2
  * https://github.com/cuth/parallax-banners
  */
 (function (exports, $) {
-    "use strict";
+    'use strict';
     var defaults = {
             allowReverse: false,
             allowStick: false,
@@ -74,7 +74,7 @@
         },
         calcPos = function (item) {
             var scrollTop = $win.scrollTop();
-            item.$frame.css({ 'top': item.frameTop - scrollTop })
+            item.$frame.css({ 'top': item.frameTop - scrollTop });
             if (scrollTop + winHeight < item.frameTop || scrollTop > item.frameTop + item.frameHeight) return;
             if (item.layerHeight >= winHeight) {
                 if (this.opts.allowReverse) {
@@ -100,13 +100,6 @@
                 requestAnimationFrame(function () {
                     calcAllPos.call(self);
                 });
-            }
-        },
-        setFixed = function () {
-            var self = this;
-            if (this.off) return;
-            for (var x = 0, xlen = this.set.length; x < xlen; x += 1) {
-                calcPos.call(this, this.set[x]);
             }
         },
         measure = function () {
